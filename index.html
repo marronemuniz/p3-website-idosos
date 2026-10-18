@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f5f7f3">
-  <meta name="description" content="Protótipo de acompanhamento familiar para instituições de cuidado. Visualize rotinas, registros e momentos importantes com transparência.">
+  <meta name="description" content="Protótipo de acompanhamento familiar da Casa Horizonte. Visualize rotinas, registros e momentos importantes com transparência.">
   <title>Laços — cuidado que aproxima</title>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
@@ -21,7 +21,7 @@
         <div class="hero-copy">
           <span class="eyebrow"><span class="eyebrow-dot"></span> Presença, mesmo de longe</span>
           <h1>O cuidado continua.<br><span>A conexão também.</span></h1>
-          <p class="hero-lede">Acompanhe a rotina de quem você ama com registros, fotos e informações compartilhadas pela instituição de cuidado.</p>
+          <p class="hero-lede">Acompanhe a rotina de quem você ama com registros, fotos e informações compartilhadas pela Casa Horizonte.</p>
           <div class="hero-actions"><button class="btn btn-primary btn-large" data-action="show-signup">Quero acompanhar minha família <span aria-hidden="true">→</span></button><button class="btn btn-outline btn-large" data-action="show-login">Já tenho uma conta</button></div>
           <div class="trust-line"><span class="trust-icon">✓</span> Um espaço de informação, proximidade e confiança.</div>
         </div>
@@ -34,8 +34,8 @@
         </div>
       </section>
       <section id="como-funciona" class="feature-strip wrap"><div class="feature-item"><span class="feature-icon icon-green">◷</span><div><strong>Rotina em um só lugar</strong><p>Registros organizados por dia e categoria.</p></div></div><div class="feature-item"><span class="feature-icon icon-peach">▧</span><div><strong>Momentos compartilhados</strong><p>Fotos e vídeos publicados pela equipe.</p></div></div><div class="feature-item"><span class="feature-icon icon-lilac">♡</span><div><strong>Família conectada</strong><p>Compartilhe o acompanhamento com familiares autorizados.</p></div></div></section>
-      <section class="how-section wrap"><div class="section-heading"><span class="eyebrow">Simples por natureza</span><h2>Mais perto, em três passos.</h2><p>Um fluxo claro para aproximar famílias e instituições com responsabilidade.</p></div><div class="steps-grid"><article class="step-card"><span class="step-number">01</span><h3>Crie sua conta</h3><p>Cadastre seus dados e encontre a instituição onde seu familiar recebe cuidado.</p></article><article class="step-card"><span class="step-number">02</span><h3>Solicite o vínculo</h3><p>A instituição confere a solicitação antes de liberar informações privadas.</p></article><article class="step-card"><span class="step-number">03</span><h3>Acompanhe e participe</h3><p>Consulte registros, veja momentos compartilhados e converse com a equipe.</p></article></div></section>
-      <footer class="public-footer"><div class="wrap footer-inner"><a class="brand" href="#inicio"><span class="brand-mark">✳</span><span>laços<span class="brand-dot">.</span></span></a><p>Conexões que fazem parte do cuidado.</p><button class="footer-link" data-action="show-clinic-signup">Sou uma instituição de cuidado</button><small>Protótipo demonstrativo · Não utilize dados reais de pessoas.</small></div></footer>
+      <section class="how-section wrap"><div class="section-heading"><span class="eyebrow">Simples por natureza</span><h2>Mais perto, em três passos.</h2><p>Um fluxo claro para aproximar famílias e a equipe da Casa Horizonte com responsabilidade.</p></div><div class="steps-grid"><article class="step-card"><span class="step-number">01</span><h3>Crie sua conta</h3><p>Crie sua conta para solicitar vínculo com um idoso da Casa Horizonte.</p></article><article class="step-card"><span class="step-number">02</span><h3>Solicite o vínculo</h3><p>A equipe ou o administrador aprova o vínculo antes de liberar informações privadas.</p></article><article class="step-card"><span class="step-number">03</span><h3>Acompanhe e participe</h3><p>Consulte registros, veja momentos compartilhados e converse com a equipe.</p></article></div></section>
+      <footer class="public-footer"><div class="wrap footer-inner"><a class="brand" href="#inicio"><span class="brand-mark">✳</span><span>laços<span class="brand-dot">.</span></span></a><p>Conexões que fazem parte do cuidado.</p><small>Protótipo demonstrativo · Não utilize dados reais de pessoas.</small></div></footer>
     </section>
 
     <section id="auth-view" class="auth-view hidden" aria-labelledby="auth-title">
@@ -44,7 +44,7 @@
         <form id="login-form" class="form-stack" novalidate>
           <label for="login-email">E-mail</label><input id="login-email" name="email" type="email" autocomplete="email" placeholder="voce@exemplo.com" required>
           <label for="login-password">Senha</label><div class="password-wrap"><input id="login-password" name="password" type="password" autocomplete="current-password" placeholder="Digite sua senha" required><button class="password-toggle" type="button" data-action="toggle-password" data-target="login-password" aria-label="Mostrar senha">◉</button></div>
-          <div class="form-between"><label class="check-label"><input id="remember-me" type="checkbox"> Manter sessão neste protótipo</label><button type="button" class="text-button" data-action="show-signup">Criar conta</button></div>
+          <div class="form-between"><button type="button" class="text-button" data-action="show-signup">Criar conta</button></div>
           <button class="btn btn-primary btn-full btn-large" type="submit">Entrar <span>→</span></button><p class="form-footnote">Protótipo: os dados não são enviados a um servidor.</p>
         </form>
         <form id="signup-form" class="form-stack hidden" novalidate>
@@ -52,24 +52,15 @@
           <label for="signup-email">E-mail</label><input id="signup-email" name="email" type="email" autocomplete="email" placeholder="voce@exemplo.com" required>
           <label for="signup-password">Crie uma senha</label><input id="signup-password" name="password" type="password" autocomplete="new-password" placeholder="Mínimo de 6 caracteres e 1 número" required>
           <label for="signup-confirm">Confirme sua senha</label><input id="signup-confirm" name="confirm" type="password" autocomplete="new-password" placeholder="Digite a senha novamente" required>
-          <label for="signup-institution">Instituição (opcional)</label><select id="signup-institution" name="institution"><option value="">Escolher depois</option></select>
-          <label for="signup-code">Código de convite (opcional)</label><input id="signup-code" name="code" placeholder="Se a instituição forneceu um código">
-          <p class="field-hint">Depois do cadastro, você poderá solicitar o vínculo com seu familiar. A instituição precisa aprovar o acesso.</p>
+          <p class="field-hint">Depois do cadastro, você poderá solicitar vínculo com um idoso da Casa Horizonte. A equipe ou o administrador precisa aprovar o acesso.</p>
           <button class="btn btn-primary btn-full btn-large" type="submit">Criar minha conta <span>→</span></button><p class="form-footnote">Ao continuar, você entende que este é um protótipo acadêmico.</p>
         </form>
-        <form id="clinic-signup-form" class="form-stack hidden" novalidate>
-          <label for="clinic-name">Nome da instituição</label><input id="clinic-name" name="clinicName" required placeholder="Nome da casa de cuidado">
-          <label for="clinic-email">E-mail institucional</label><input id="clinic-email" name="clinicEmail" type="email" required placeholder="contato@instituicao.com.br">
-          <label for="clinic-contact">Nome do responsável</label><input id="clinic-contact" name="contact" required placeholder="Nome completo">
-          <label for="clinic-city">Cidade/UF</label><input id="clinic-city" name="city" required placeholder="Ex.: Itapetininga/SP">
-          <button class="btn btn-primary btn-full btn-large" type="submit">Solicitar cadastro <span>→</span></button><p class="field-hint">A instituição ficará pendente de análise do administrador do sistema.</p>
-        </form>
-        <div id="auth-demo-hint" class="demo-hint"><strong>Quer explorar o protótipo?</strong><p>Você pode criar uma conta de família ou usar um perfil demonstrativo.</p><button type="button" class="text-button" data-action="demo-login" data-role="family">Entrar como família</button><button type="button" class="text-button" data-action="demo-login" data-role="staff">Entrar como equipe</button><button type="button" class="text-button" data-action="demo-login" data-role="manager">Entrar como responsável da instituição</button><button type="button" class="text-button" data-action="demo-login" data-role="admin">Entrar como administrador</button></div>
+        <div id="auth-demo-hint" class="demo-hint"><strong>Quer explorar o protótipo?</strong><p>Você pode criar uma conta de família ou usar um perfil demonstrativo.</p><button type="button" class="text-button" data-action="demo-login" data-role="family">Entrar como família</button><button type="button" class="text-button" data-action="demo-login" data-role="staff">Entrar como equipe</button><p>Administrador da equipe: entre pelo formulário acima com <strong>admin@lacos.demo</strong> e a senha <strong>Admin123</strong>.</p></div>
       </div></div>
     </section>
 
     <section id="workspace-view" class="workspace hidden">
-      <aside class="sidebar" id="sidebar"><a class="brand sidebar-brand" href="#painel" data-action="navigate" data-page="dashboard"><span class="brand-mark">✳</span><span>laços<span class="brand-dot">.</span></span></a><div class="workspace-org"><span class="org-symbol">⌂</span><div><strong id="sidebar-org">Casa Horizonte</strong><small id="sidebar-role">Área da família</small></div><span class="org-chevron">⌄</span></div><div class="sidebar-label">MENU PRINCIPAL</div><nav id="sidebar-nav" class="sidebar-nav" aria-label="Menu do painel"></nav><div class="sidebar-bottom"><div class="help-card"><span class="help-spark">✦</span><strong>Precisa de ajuda?</strong><p>Consulte a equipe da instituição para dúvidas sobre os registros.</p><button data-action="navigate" data-page="messages" class="help-link">Abrir mensagens →</button></div><button class="profile-mini" data-action="open-profile"><span class="avatar avatar-green" id="profile-avatar">Z</span><span><strong id="profile-name">Zé</strong><small id="profile-role">Familiar</small></span><span class="profile-menu-dots">···</span></button><button class="sidebar-logout" data-action="logout">↪ Sair da conta</button></div></aside>
+      <aside class="sidebar" id="sidebar"><a class="brand sidebar-brand" href="#painel" data-action="navigate" data-page="dashboard"><span class="brand-mark">✳</span><span>laços<span class="brand-dot">.</span></span></a><div class="workspace-org"><span class="org-symbol">⌂</span><div><strong id="sidebar-org">Casa Horizonte</strong><small id="sidebar-role">Área da família</small></div></div><div class="sidebar-label">MENU PRINCIPAL</div><nav id="sidebar-nav" class="sidebar-nav" aria-label="Menu do painel"></nav><div class="sidebar-bottom"><div class="help-card"><span class="help-spark">✦</span><strong>Precisa de ajuda?</strong><p>Consulte a equipe da instituição para dúvidas sobre os registros.</p><button data-action="navigate" data-page="messages" class="help-link">Abrir mensagens →</button></div><button class="profile-mini" data-action="open-profile"><span class="avatar avatar-green" id="profile-avatar">Z</span><span><strong id="profile-name">Zé</strong><small id="profile-role">Familiar</small></span><span class="profile-menu-dots">···</span></button><button class="sidebar-logout" data-action="logout">↪ Sair da conta</button></div></aside>
       <div class="workspace-main"><header class="topbar"><button class="mobile-menu" data-action="toggle-sidebar" aria-label="Abrir menu">☰</button><div class="breadcrumb"><span>Laços</span><span>/</span><strong id="page-breadcrumb">Visão geral</strong></div><div class="topbar-actions"><span class="topbar-date" id="topbar-date"></span><button class="icon-button notification-button" data-action="navigate" data-page="notifications" aria-label="Ver notificações">♧<span id="notification-dot" class="notification-dot"></span></button><span class="avatar avatar-green topbar-avatar" id="topbar-avatar">Z</span></div></header><div id="page-content" class="page-content" tabindex="-1"></div><footer class="workspace-footer"><span>Laços · Protótipo acadêmico</span><span>Não utilize dados pessoais reais.</span></footer></div>
     </section>
   </main>
