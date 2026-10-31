@@ -7,7 +7,23 @@
 @media(max-width:390px){.nav-actions{gap:5px}.nav-actions .btn{padding:8px}.hero-actions .btn{width:100%}.stat-grid{grid-template-columns:1fr 1fr}.stat-card{display:block}.stat-icon{margin-bottom:8px}.stat-card strong{font-size:1.4rem}.dashboard-welcome{gap:5px}.welcome-decoration{font-size:2rem}.form-between{align-items:flex-start;flex-direction:column}.modal-detail-grid{grid-template-columns:1fr}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
 
+/* Telas baixas (notebooks, zoom alto, TVs com escala): compacta a barra lateral para caber sem cortar */
 @media(max-height:820px) and (min-width:761px){.sidebar{padding-top:16px;padding-bottom:10px}.sidebar-brand{padding-bottom:12px}.workspace-org{margin-bottom:14px;padding:8px 10px}.nav-item{padding:8px 12px}.sidebar-nav{gap:2px}.help-card{padding:11px;margin-bottom:8px}.help-card p{display:none}.profile-mini{padding:10px 5px 6px}}
 @media(max-height:640px) and (min-width:761px){.help-card{display:none}.sidebar-label{padding-bottom:6px}.workspace-org{margin-bottom:10px}}
 @media(max-height:720px) and (min-width:761px){.nav-item{padding:7px 12px}.sidebar-brand{padding-bottom:8px}.workspace-org{margin-bottom:10px}.sidebar-label{padding-bottom:6px}}
 @media(max-height:640px) and (min-width:761px){.sidebar-label{display:none}.nav-item{padding:6px 12px}.workspace-org{display:none}}
+
+/* Menu da conta (ícone com a inicial no canto superior direito) */
+.account-menu{position:relative}
+.account-trigger{border:0;padding:0;font-family:inherit;font-size:.85rem;cursor:pointer;transition:box-shadow .15s}
+.account-trigger:hover,.account-trigger[aria-expanded="true"]{box-shadow:0 0 0 3px #bcd8c6}
+.account-dropdown{position:absolute;right:0;top:calc(100% + 10px);width:min(272px,calc(100vw - 24px));background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 50px #15261b26;padding:6px;z-index:60}
+.account-dropdown-head{padding:11px 12px 12px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.account-dropdown-head strong{display:block;font-size:.82rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.account-dropdown-head small{display:block;color:var(--muted);font-size:.7rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.account-dropdown-head .status-pill{margin-top:7px;display:inline-block}
+.account-item{display:flex;align-items:center;gap:10px;width:100%;padding:9px 12px;border:0;border-radius:9px;background:transparent;color:var(--ink);text-align:left;font-size:.8rem;font-weight:600}
+.account-item:hover,.account-item:focus-visible{background:#f3f7f2}
+.account-item span{width:18px;text-align:center;color:#68766d}
+.account-item.danger,.account-item.danger span{color:#9a6b65}
+.form-field input[disabled]{background:#f3f5f1;color:var(--muted)}
