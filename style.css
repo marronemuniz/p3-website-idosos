@@ -27,3 +27,6 @@
 .account-item span{width:18px;text-align:center;color:#68766d}
 .account-item.danger,.account-item.danger span{color:#9a6b65}
 .form-field input[disabled]{background:#f3f5f1;color:var(--muted)}
+/* Caixa de seleção do formulário: não herdar a largura/altura dos campos de texto */
+.form-field .check-label{cursor:pointer}
+.form-field .check-label input[type=checkbox]{flex:0 0 auto;width:18px;height:18px;min-height:0;padding:0;margin:0;cursor:pointer}
