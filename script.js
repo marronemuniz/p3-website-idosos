@@ -354,6 +354,20 @@
   function clearValidation(form) { $$('[aria-invalid="true"]',form).forEach(field=>field.removeAttribute('aria-invalid')); $$('.auth-error,.auth-success',form).forEach(el=>el.remove()); }
   function formMessage(form,message,type='error') { const el=document.createElement('p'); el.className=type==='error'?'auth-error':'auth-success'; el.setAttribute('role','status'); el.textContent=message; form.prepend(el); }
   function markInvalid(field) { field.setAttribute('aria-invalid','true'); }
+  // Traduz os erros do Supabase Auth (em inglês) para mensagens claras em português.
+  function friendlyAuthError(error) {
+    const code=String(error?.code||'').toLowerCase(), text=String(error?.message||'').toLowerCase(), status=error?.status;
+    if (status===429||code.includes('rate_limit')||text.includes('rate limit')) return 'Muitas tentativas em pouco tempo. Aguarde alguns minutos e tente novamente.';
+    if (code==='email_address_invalid'||/email address .* is invalid/.test(text)||text.includes('unable to validate email')) return 'Este e-mail não foi aceito. Confira se está correto e use um e-mail real, por exemplo do Gmail ou do Outlook.';
+    if (code==='user_already_exists'||code==='email_exists'||text.includes('already registered')||text.includes('already been registered')) return 'Já existe uma conta com este e-mail. Entre ou use outro endereço.';
+    if (code==='weak_password'||text.includes('password should')||text.includes('weak')) return 'A senha é muito fraca. Use pelo menos 6 caracteres e um número.';
+    if (code==='same_password'||text.includes('different from the old password')) return 'A nova senha precisa ser diferente da atual.';
+    if (code==='email_not_confirmed'||text.includes('not confirmed')) return 'Confirme seu e-mail antes de entrar.';
+    if (code==='signup_disabled'||text.includes('signups not allowed')) return 'Os cadastros estão desativados no momento.';
+    if (code==='invalid_credentials'||text.includes('invalid login credentials')) return 'E-mail ou senha incorretos. Confira os dados e tente novamente.';
+    if (text.includes('failed to fetch')||text.includes('network')||text.includes('load failed')) return 'Não foi possível conectar. Verifique sua internet e tente novamente.';
+    return 'Não foi possível concluir a operação. Tente novamente em instantes.';
+  }
   function validEmail(value) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim()); }
   function validPassword(value) { return value.length>=6 && /\d/.test(value); }
   async function handleLogin(event) {
@@ -365,7 +379,7 @@
     if (isSupabaseConfigured() && !isSupabaseConnected()) { formMessage(form,'A conexão com o Supabase não inicializou. Confira a URL, a chave e o console do navegador.'); return; }
     if (isSupabaseConnected()) {
       const { data, error } = await supabaseClient.auth.signInWithPassword({email,password});
-      if (error) { markInvalid($('#login-password')); formMessage(form,'Não foi possível entrar. Confira o e-mail e a senha cadastrados no Supabase Auth.'); return; }
+      if (error) { if (error.code==='invalid_credentials'||error.status===400) markInvalid($('#login-password')); formMessage(form,friendlyAuthError(error)); return; }
       try { await loadRemoteWorkspace(data.user); }
       catch (loadError) { console.error(loadError); formMessage(form,'Login concluído, mas não foi possível carregar o perfil. Confira o SQL/RLS do Supabase.'); }
       return;
@@ -384,7 +398,7 @@
     if (isSupabaseConfigured() && !isSupabaseConnected()) { formMessage(form,'A conexão com o Supabase não inicializou. Confira a URL, a chave e o console do navegador.'); return; }
     if (isSupabaseConnected()) {
       const { data, error } = await supabaseClient.auth.signUp({email,password,options:{data:{name}}});
-      if (error) { formMessage(form,error.message || 'Não foi possível criar a conta.'); return; }
+      if (error) { if (error.code==='email_address_invalid'||error.code==='user_already_exists'||error.code==='email_exists') markInvalid($('#signup-email')); formMessage(form,friendlyAuthError(error)); return; }
       if (data.session && data.user) {
         try { await loadRemoteWorkspace(data.user); }
         catch (loadError) { console.error(loadError); formMessage(form,'Conta criada, mas não foi possível carregar o perfil. Confira o SQL/RLS.'); }
@@ -405,7 +419,7 @@
   }
   function navItemsForRole(role) { if (role==='family') return [{id:'dashboard',label:'Visão geral',icon:'⌂'},{id:'routine',label:'Rotina e histórico',icon:'◷'},{id:'media',label:'Fotos e vídeos',icon:'▧'},{id:'messages',label:'Mensagens',icon:'▤'},{id:'video',label:'Chamada de vídeo',icon:'▻'},{id:'notifications',label:'Notificações',icon:'♧',count:true},{id:'links',label:'Vínculos familiares',icon:'♡'},{id:'settings',label:'Preferências',icon:'⚙'}]; const admin=isAdmin(); return [{id:'dashboard',label:'Visão geral',icon:'⌂'},{id:'routine',label:'Rotina e registros',icon:'◷',show:can('recordRoutine')||can('recordIncident')},{id:'media',label:'Fotos e vídeos',icon:'▧',show:can('uploadMedia')},{id:'messages',label:'Mensagens',icon:'▤',show:can('replyMessages')},{id:'notifications',label:'Notificações',icon:'♧',count:true},{id:'links',label:admin?'Vínculos familiares':'Solicitações de vínculo',icon:'♡',count:true,show:can('manageLinks')},{id:'elders',label:'Gestão de residentes',icon:'❀',show:admin},{id:'staff',label:'Gestão da equipe',icon:'♙',show:admin},{id:'settings',label:'Preferências',icon:'⚙'}].filter(item=>item.show!==false); }
   function pageLabel(page) { return ({dashboard:'Visão geral',routine:'Rotina e histórico',media:'Fotos e vídeos',messages:'Mensagens',video:'Chamada de vídeo',notifications:'Notificações',links:'Vínculos familiares',staff:'Equipe e permissões',elders:'Residentes',settings:'Preferências',profile:'Meu perfil'})[page] || 'Visão geral'; }
-  function renderWorkspace() { const user=currentUser(); if (!user) return; $('#sidebar-role').textContent=userRoleLabel(user); $('#sidebar-org').textContent=currentInstitution()?.name||'Área da família'; $('#profile-name').textContent=user.name; $('#profile-role').textContent=userRoleLabel(user); $('#profile-avatar').textContent=(user.name||'?').trim().charAt(0).toUpperCase(); $('#topbar-avatar').textContent=(user.name||'?').trim().charAt(0).toUpperCase(); renderAccountMenu(user); $('#topbar-date').textContent=formatLongDate(); const nav=navItemsForRole(user.role); $('#sidebar-nav').innerHTML=nav.map(item=>`<button class="nav-item ${state.page===item.id?'active':''}" data-action="navigate" data-page="${item.id}"><span class="nav-icon">${item.icon}</span><span>${item.label}</span>${item.count && item.id==='links' && pendingLinks().length?`<span class="nav-count">${pendingLinks().length}</span>`:''}${item.id==='notifications' && unreadNotifications().length?`<span class="nav-count">${unreadNotifications().length}</span>`:''}</button>`).join(''); $('#notification-dot').style.display=unreadNotifications().length?'block':'none'; $('#page-breadcrumb').textContent=pageLabel(state.page); renderPage(); }
+  function renderWorkspace() { const user=currentUser(); if (!user) return; $('#sidebar-role').textContent=userRoleLabel(user); $('#sidebar-org').textContent=currentInstitution()?.name||'Área da família'; $('#profile-name').textContent=user.name; $('#profile-role').textContent=userRoleLabel(user); $('#profile-avatar').textContent=(user.name||'?').trim().charAt(0).toUpperCase(); $('#topbar-avatar').textContent=(user.name||'?').trim().charAt(0).toUpperCase(); renderAccountMenu(user); $('.help-card')?.classList.toggle('hidden',user.role==='staff'); $('#topbar-date').textContent=formatLongDate(); const nav=navItemsForRole(user.role); $('#sidebar-nav').innerHTML=nav.map(item=>`<button class="nav-item ${state.page===item.id?'active':''}" data-action="navigate" data-page="${item.id}"><span class="nav-icon">${item.icon}</span><span>${item.label}</span>${item.count && item.id==='links' && pendingLinks().length?`<span class="nav-count">${pendingLinks().length}</span>`:''}${item.id==='notifications' && unreadNotifications().length?`<span class="nav-count">${unreadNotifications().length}</span>`:''}</button>`).join(''); $('#notification-dot').style.display=unreadNotifications().length?'block':'none'; $('#page-breadcrumb').textContent=pageLabel(state.page); renderPage(); }
   // ---- Menu da conta (ícone com a inicial, no canto superior direito) ----
   function renderAccountMenu(user) {
     const menu=$('#account-menu'); if (!menu) return;
@@ -524,9 +538,9 @@
     if (next===current) return toast('A nova senha precisa ser diferente da atual.','error');
     if (isSupabaseConnected()) {
       const {error:authError}=await supabaseClient.auth.signInWithPassword({email:user.email,password:current});
-      if (authError) return toast('A senha atual está incorreta.','error');
+      if (authError) return toast(authError.status===429?friendlyAuthError(authError):'A senha atual está incorreta.','error');
       const {error}=await supabaseClient.auth.updateUser({password:next});
-      if (error) return toast(error.message||'Não foi possível alterar a senha.','error');
+      if (error) return toast(friendlyAuthError(error),'error');
     } else {
       if (user.password!==current) return toast('A senha atual está incorreta.','error');
       DataService.update('users',user.id,{password:next});
